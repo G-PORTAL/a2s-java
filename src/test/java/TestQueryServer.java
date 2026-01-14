@@ -41,6 +41,25 @@ public class TestQueryServer {
 		System.out.println(client.queryRules(new InetSocketAddress(InetAddress.getLocalHost(), 27017)).get(5000, TimeUnit.MILLISECONDS));
 	}
 
+	@Test
+	public void testUpdateServerInfoAndPlayers() throws UnknownHostException, InterruptedException, ExecutionException, TimeoutException {
+		InetSocketAddress address = new InetSocketAddress(InetAddress.getLocalHost(), 27017);
+
+		ServerInfo info = client.queryServer(address).get(5000, TimeUnit.MILLISECONDS);
+		assert info.players() == (byte) 4;
+		java.util.List<PlayerInfo> players = client.queryPlayers(address).get(5000, TimeUnit.MILLISECONDS);
+		assert players.size() == 1;
+
+		server.players.add(new PlayerInfo((byte)1, "NewPlayer", (short)100, 10f));
+		server.info.setPlayers((byte) 5);
+
+		info = client.queryServer(address).get(5000, TimeUnit.MILLISECONDS);
+		assert info.players() == 5;
+		players = client.queryPlayers(address).get(5000, TimeUnit.MILLISECONDS);
+		assert players.size() == 2;
+		assert players.get(1).name().equals("NewPlayer");
+	}
+
 	@AfterAll
 	public static void cleanUp() {
 		client.shutdown();
