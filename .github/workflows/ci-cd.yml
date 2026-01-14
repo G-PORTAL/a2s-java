@@ -4,6 +4,9 @@ on:
   push:
     tags:
       - '*'
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
   build-and-test:
@@ -16,10 +19,18 @@ jobs:
         java-version: '25'
         distribution: 'temurin'
         cache: maven
+    - name: Set version
+      run: |
+        if [[ $GITHUB_REF == refs/tags/* ]]; then
+          echo "REVISION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        else
+          echo "REVISION=0.0.0-SNAPSHOT" >> $GITHUB_ENV
+        fi
     - name: Build with Maven
-      run: mvn -B package -Drevision=${{ github.ref_name }} --file pom.xml
+      run: mvn -B package -Drevision=${{ env.REVISION }} --file pom.xml
 
   publish:
+    if: startsWith(github.ref, 'refs/tags/')
     needs: build-and-test
     runs-on: ubuntu-latest
     permissions:
