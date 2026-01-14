@@ -1,14 +1,14 @@
-package com.gportal.source.query;
+package com.gportal.a2s;
 
 import java.util.List;
 
-import com.gportal.source.query.messages.ChallengeReply;
-import com.gportal.source.query.messages.InfoQuery;
-import com.gportal.source.query.messages.InfoReply;
-import com.gportal.source.query.messages.PlayerQuery;
-import com.gportal.source.query.messages.PlayerReply;
-import com.gportal.source.query.messages.RulesQuery;
-import com.gportal.source.query.messages.RulesReply;
+import com.gportal.a2s.messages.ChallengeReply;
+import com.gportal.a2s.messages.InfoQuery;
+import com.gportal.a2s.messages.InfoReply;
+import com.gportal.a2s.messages.PlayerQuery;
+import com.gportal.a2s.messages.PlayerReply;
+import com.gportal.a2s.messages.RulesQuery;
+import com.gportal.a2s.messages.RulesReply;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

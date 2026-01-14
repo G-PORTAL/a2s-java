@@ -1,8 +1,8 @@
-package com.gportal.source.query.messages;
+package com.gportal.a2s.messages;
 
 import java.net.InetSocketAddress;
 
-import com.gportal.source.query.Query;
+import com.gportal.a2s.Query;
 
 import io.netty.buffer.ByteBuf;
 

@@ -38,7 +38,7 @@ The library is published on GitHub Packages. To use it, you need to configure yo
 <dependency>
     <groupId>com.gportal</groupId>
     <artifactId>a2s</artifactId>
-    <version>1.0.0</version> <!-- Use the desired release tag version -->
+    <version>1.0.1</version> <!-- Use the desired release tag version -->
 </dependency>
 ```
 
@@ -67,9 +67,9 @@ dependencies {
 ### Querying a Server (Client)
 
 ```java
-import com.gportal.source.query.QueryClient;
-import com.gportal.source.query.ServerInfo;
-import com.gportal.source.query.PlayerInfo;
+import com.gportal.a2s.QueryClient;
+import com.gportal.a2s.ServerInfo;
+import com.gportal.a2s.PlayerInfo;
 import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Map;
@@ -101,9 +101,9 @@ public class Example {
 ### Starting an A2S Server
 
 ```java
-import com.gportal.source.query.QueryServer;
-import com.gportal.source.query.ServerInfo;
-import com.gportal.source.query.PlayerInfo;
+import com.gportal.a2s.QueryServer;
+import com.gportal.a2s.ServerInfo;
+import com.gportal.a2s.PlayerInfo;
 
 public class ServerExample {
     public static void main(String[] args) {

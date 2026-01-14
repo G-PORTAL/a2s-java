@@ -1,4 +1,4 @@
-package com.gportal.source.query;
+package com.gportal.a2s;
 
 public interface Query extends Message {
 	public Integer challenge();

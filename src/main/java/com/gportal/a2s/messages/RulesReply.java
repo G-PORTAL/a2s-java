@@ -1,13 +1,13 @@
-package com.gportal.source.query.messages;
+package com.gportal.a2s.messages;
 
-import static com.gportal.source.query.Message.readString;
-import static com.gportal.source.query.Message.writeString;
+import static com.gportal.a2s.Message.readString;
+import static com.gportal.a2s.Message.writeString;
 
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.gportal.source.query.Reply;
+import com.gportal.a2s.Reply;
 
 import io.netty.buffer.ByteBuf;
 

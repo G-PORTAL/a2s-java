@@ -1,16 +1,18 @@
-package com.gportal.source.query;
+package com.gportal.a2s;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.gportal.source.query.messages.InfoQuery;
-import com.gportal.source.query.messages.InfoReply;
-import com.gportal.source.query.messages.PlayerQuery;
-import com.gportal.source.query.messages.PlayerReply;
-import com.gportal.source.query.messages.RulesQuery;
-import com.gportal.source.query.messages.RulesReply;
+import java.net.InetSocketAddress;
+
+import com.gportal.a2s.messages.InfoQuery;
+import com.gportal.a2s.messages.InfoReply;
+import com.gportal.a2s.messages.PlayerQuery;
+import com.gportal.a2s.messages.PlayerReply;
+import com.gportal.a2s.messages.RulesQuery;
+import com.gportal.a2s.messages.RulesReply;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelHandlerContext;
@@ -28,7 +30,7 @@ public class QueryServer {
 	public final Map<String, String> rules = new HashMap<String, String>();
 	public final List<PlayerInfo> players = new ArrayList<PlayerInfo>();
 
-	public QueryServer(int port, ServerInfo info) {
+	public QueryServer(InetSocketAddress address, ServerInfo info) {
 		this.info = info;
 		worker = new NioEventLoopGroup();
 		Bootstrap bootstrap = new Bootstrap()
@@ -56,7 +58,7 @@ public class QueryServer {
 					);
 				}
 			});
-		channel = (DatagramChannel) bootstrap.bind(port).syncUninterruptibly().channel();
+		channel = (DatagramChannel) bootstrap.bind(address).syncUninterruptibly().channel();
 	}
 
 	public void shutdown() {

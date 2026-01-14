@@ -1,11 +1,11 @@
-package com.gportal.source.query.messages;
+package com.gportal.a2s.messages;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gportal.source.query.PlayerInfo;
-import com.gportal.source.query.Reply;
+import com.gportal.a2s.PlayerInfo;
+import com.gportal.a2s.Reply;
 
 import io.netty.buffer.ByteBuf;
 
