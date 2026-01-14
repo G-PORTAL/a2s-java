@@ -17,27 +17,48 @@ This library allows you to query game servers that implement the Source Engine Q
 
 ## Installation
 
-The library is published on the Maven registry. You can include it in your project using Maven or Gradle.
+The library is published on GitHub Packages. To use it, you need to configure your build tool to include the GitHub Maven repository.
 
 ### Maven
 
-Add the following dependency to your `pom.xml`:
+1. Add the following repository to your `pom.xml`:
+
+```xml
+<repositories>
+    <repository>
+        <id>github</id>
+        <url>https://maven.pkg.github.com/g-portal/a2s-java</url>
+    </repository>
+</repositories>
+```
+
+2. Add the following dependency to your `pom.xml`:
 
 ```xml
 <dependency>
     <groupId>com.gportal</groupId>
     <artifactId>a2s</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version> <!-- Use the desired release tag version -->
 </dependency>
 ```
 
 ### Gradle
 
-Add the following to your `build.gradle`:
+1. Add the following repository to your `build.gradle`:
+
+```gradle
+repositories {
+    maven {
+        url = uri("https://maven.pkg.github.com/g-portal/a2s-java")
+    }
+}
+```
+
+2. Add the following to your `build.gradle` dependencies:
 
 ```gradle
 dependencies {
-    implementation 'com.gportal:a2s:<version>'
+    implementation 'com.gportal:a2s:1.0.0' // Use the desired release tag version
 }
 ```
 
