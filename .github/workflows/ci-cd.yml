@@ -19,6 +19,8 @@ jobs:
         java-version: '25'
         distribution: 'temurin'
         cache: maven
+    - name: Install quakestat
+      run: sudo apt-get update && sudo apt-get install -y quakestat
     - name: Set version
       run: |
         if [[ $GITHUB_REF == refs/tags/* ]]; then
