@@ -15,8 +15,9 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.MultiThreadIoEventLoopGroup;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.DatagramChannel;
 import io.netty.channel.socket.nio.NioDatagramChannel;
 
@@ -28,7 +29,7 @@ public class QueryClient {
 	private Map<InetSocketAddress, Map.Entry<Query, CompletableFuture<?>>> requests = new HashMap<InetSocketAddress, Map.Entry<Query, CompletableFuture<?>>>();
 
 	public QueryClient() {
-		worker = new NioEventLoopGroup();
+		worker = new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory());
 		Bootstrap bootstrap = new Bootstrap()
 			.group(worker)
 			.channel(NioDatagramChannel.class)
@@ -40,12 +41,11 @@ public class QueryClient {
 						new MessageCodec(),
 						new SimpleChannelInboundHandler<Reply>() {
 							protected void channelRead0(ChannelHandlerContext ctx, Reply msg) throws Exception {
-								Map.Entry<Query, CompletableFuture<?>> request = requests.get(msg.remoteAddress());
+								Map.Entry<Query, CompletableFuture<?>> request = requests.remove(msg.remoteAddress());
 								if(request != null) {
 									@SuppressWarnings("unchecked")
 									CompletableFuture<Object> future = (CompletableFuture<Object>) request.getValue();
 									future.complete(msg.payload());
-									clearRequest(msg.remoteAddress());
 								}
 							}
 						},
@@ -70,9 +70,12 @@ public class QueryClient {
 	}
 
 	private void clearRequest(InetSocketAddress remoteAddress) {
-		if(requests.get(remoteAddress) != null) {
-			requests.get(remoteAddress).getValue().cancel(true);
-			requests.put(remoteAddress, null);
+		Map.Entry<Query, CompletableFuture<?>> entry = requests.remove(remoteAddress);
+		if (entry != null) {
+			CompletableFuture<?> future = entry.getValue();
+			if (!future.isDone()) {
+				future.cancel(true);
+			}
 		}
 	}
 

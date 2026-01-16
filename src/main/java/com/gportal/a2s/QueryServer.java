@@ -18,8 +18,9 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.MultiThreadIoEventLoopGroup;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.DatagramChannel;
 import io.netty.channel.socket.nio.NioDatagramChannel;
 
@@ -32,7 +33,7 @@ public class QueryServer {
 
 	public QueryServer(InetSocketAddress address, ServerInfo info) {
 		this.info = info;
-		worker = new NioEventLoopGroup();
+		worker = new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory());
 		Bootstrap bootstrap = new Bootstrap()
 			.group(worker)
 			.channel(NioDatagramChannel.class)
