@@ -15,7 +15,7 @@ public record RulesReply(InetSocketAddress remoteAddress, Map<String, String> pa
 	public static final byte OP = 0x45;
 
 	public static RulesReply read(InetSocketAddress remoteAddress, ByteBuf buffer) {
-		short count = buffer.readShortLE();
+		int count = buffer.readUnsignedShortLE();
 		Map<String, String> payload = new HashMap<String, String>();
 		for(int i = 0; i < count; i++) {
 			payload.put(readString(buffer), readString(buffer));

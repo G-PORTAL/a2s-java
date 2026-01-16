@@ -36,6 +36,8 @@ public class QueryServer {
 		Bootstrap bootstrap = new Bootstrap()
 			.group(worker)
 			.channel(NioDatagramChannel.class)
+			.option(io.netty.channel.ChannelOption.SO_RCVBUF, 65535)
+			.option(io.netty.channel.ChannelOption.RCVBUF_ALLOCATOR, new io.netty.channel.FixedRecvByteBufAllocator(65535))
 			.handler(new ChannelInitializer<NioDatagramChannel>() {
 				protected void initChannel(NioDatagramChannel ch) throws Exception {
 					ch.pipeline().addLast(

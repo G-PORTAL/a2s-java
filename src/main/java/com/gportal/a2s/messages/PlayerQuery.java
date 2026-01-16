@@ -12,8 +12,8 @@ public record PlayerQuery(InetSocketAddress remoteAddress, Integer challenge) im
 	public PlayerQuery withChallenge(int challenge) { return new PlayerQuery(remoteAddress(), challenge); }
 
 	public static PlayerQuery read(InetSocketAddress remoteAddress, ByteBuf buffer) {
-		Integer challenge = buffer.readIntLE();
-		if(challenge==0) challenge = null;
+		Integer challenge = buffer.readableBytes()>=4?buffer.readIntLE():null;
+		if(challenge!=null && challenge==0) challenge = null;
 		return new PlayerQuery(remoteAddress, challenge);
 	}
 	public PlayerQuery write(ByteBuf buffer) {

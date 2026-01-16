@@ -12,8 +12,8 @@ public record RulesQuery(InetSocketAddress remoteAddress, Integer challenge) imp
 	public RulesQuery withChallenge(int challenge) { return new RulesQuery(remoteAddress(), challenge); }
 
 	public static RulesQuery read(InetSocketAddress remoteAddress, ByteBuf buffer) {
-		Integer challenge = buffer.readIntLE();
-		if(challenge==0) challenge = null;
+		Integer challenge = buffer.readableBytes()>=4?buffer.readIntLE():null;
+		if(challenge!=null && challenge==0) challenge = null;
 		return new RulesQuery(remoteAddress, challenge);
 	}
 	public RulesQuery write(ByteBuf buffer) {

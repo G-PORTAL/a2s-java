@@ -13,7 +13,7 @@ public record PlayerReply(InetSocketAddress remoteAddress, List<PlayerInfo> payl
 	public static final byte OP = 0x44;
 
 	public static PlayerReply read(InetSocketAddress remoteAddress, ByteBuf buffer) {
-		byte count = buffer.readByte();
+		int count = buffer.readUnsignedByte();
 		List<PlayerInfo> payload = new ArrayList<PlayerInfo>();
 		for(int i = 0; i < count; i++) {
 			payload.add(PlayerInfo.read(buffer));
